@@ -1,0 +1,12 @@
+services:
+  import-service:
+    path: import-service
+
+  product-service:
+    path: product-service
+    params:
+      QueueUrl: ${import-service.QueueURL}
+      QueueName: ${import-service.QueueName}
+      QueueArn: ${import-service.QueueARN}
+    dependsOn: import-service
+
