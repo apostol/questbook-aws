@@ -4,6 +4,7 @@
  */
 
 export default {
+  setupFiles: ['<rootDir>/tests/config.ts'],
   transform: {
     '^.+\\.ts?$': 'esbuild-jest',
   },
@@ -14,7 +15,8 @@ export default {
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
     '^@functions/(.*)$': '<rootDir>/src/functions/$1',
-    '^@libs/(.*)$': '<rootDir>/src/libs/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@tests/(.*)$': '<rootDir>/tests/$1',
+    '^@services/(.*)$': '<rootDir>/src/services/$1',
   },
 }

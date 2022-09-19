@@ -1,6 +1,6 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -10,10 +10,21 @@
     "target": "ES2020",
     "preserveConstEnums": true,
     "noEmit": true,
-    "module": "es2015",
+    "module": "esnext",
     "strict": true,
     "lib": ["ESNext"],
-    "outDir": "lib"
+    "outDir": "lib",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@functions/*": ["src/functions/*"],
+      "@libs/*": ["src/libs/*"],
+      "@models/*": ["src/models/*"],
+      "@repository/*": ["src/repository/*"],
+      "@utils/*": ["src/utils/*"],
+      "@services/*": ["src/services/*"],
+      "@tests/*": ["tests/*"]
+    }
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [
@@ -22,9 +33,7 @@
     ".webpack/**/*",
     "_warmup/**/*",
     ".vscode/**/*",
-    "**/*.test.ts"
-  ],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+    "**/*.test.ts",
+    "**/*.json"
+  ]
 }

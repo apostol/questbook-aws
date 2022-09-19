@@ -1,17 +1,24 @@
-import { APIGatewayEvent, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { main } from '../handler'
 import apiRequest from '@tests/requests/api.json'
 import mock from './handler.test.mock.json'
 
-describe('Unit test for importProductsFile handler', function () {
+const mockS3ServiceInstance = {
+  getSignedUrlPromise: jest.fn().mockReturnThis(),
+  promise: jest.fn(),
+}
+const mockConfigService = {
+  get: jest.fn().mockReturnValueOnce(process.env.UPLOAD_FOLDER),
+}
+
+jest.mock('@services/S3Service', () => jest.fn(() => mockS3ServiceInstance))
+jest.mock('@services/configService', () => jest.fn(() => mockConfigService))
+
+describe('Unit test for import file', function () {
   it('verifies successful response', async () => {
-    const request: APIGatewayProxyEvent = Object.assign(apiRequest, mock) as unknown as APIGatewayEvent
-    const result: APIGatewayProxyResult = await main(request)
+    const request = Object.assign(apiRequest, mock) as unknown
+    mockS3ServiceInstance.getSignedUrlPromise.mockResolvedValue('Signed URL')
+    const result = await main(request)
     expect(result.statusCode).toEqual(200)
-    expect(result.body).toEqual(
-      JSON.stringify({
-        message: `Hello ${request?.body?.name}, welcome to the exciting Serverless world!`,
-      }),
-    )
+    expect(mockS3ServiceInstance.getSignedUrlPromise).toBeCalledWith('uploaded/test.cvs')
   })
 })

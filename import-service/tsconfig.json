@@ -14,10 +14,12 @@
     "strict": true,
     "lib": ["ESNext"],
     "outDir": "lib",
+    "isolatedModules": true, 
     "resolveJsonModule": true,
     "paths": {
       "@functions/*": ["src/functions/*"],
-      "@libs/*": ["src/libs/*"],
+      "@utils/*": ["src/utils/*"],
+      "@services/*": ["src/services/*"],
       "@tests/*": ["tests/*"]
     }
   },

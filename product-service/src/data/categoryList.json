@@ -1,0 +1,34 @@
+[
+  {
+    "description": "[MOCK] Category description 1",
+    "name": "[MOCK] Category name 1"
+  },
+  {
+    "description": "[MOCK] Category description 2",
+    "name": "[MOCK] Category name 2"
+  },
+  {
+    "description": "[MOCK] Category description 3",
+    "name": "[MOCK] Category name 3"
+  },
+  {
+    "description": "[MOCK] Category description 4",
+    "name": "[MOCK] Category name 4"
+  },
+  {
+    "description": "[MOCK] Category description 5",
+    "name": "[MOCK] Category name 5"
+  },
+  {
+    "description": "[MOCK] Category description 6",
+    "name": "[MOCK] Category name 6"
+  },
+  {
+    "description": "[MOCK] Category description 7",
+    "name": "[MOCK] Category name 7"
+  },
+  {
+    "description": "[MOCK] Category description 8",
+    "name": "[MOCK] Category name 8"
+  }
+]

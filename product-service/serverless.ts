@@ -1,14 +1,9 @@
-import type { AWS } from '@serverless/typescript';
+import type { AWS } from '@serverless/typescript'
 
-import getProductsList from '@functions/getProductsList';
-import ProductSchema from 'src/models/product.schema.json';
-import CategorySchema from 'src/models/category.schema.json';
-import createProduct from '@functions/createProduct';
-import deleteProduct from '@functions/deleteProduct';
-import getProductsAvailable from '@functions/getProductsAvailable';
-import getProductsById from '@functions/getProductsById';
-import updateProduct from '@functions/updateProduct';
-import catalogBatchProcess from '@functions/catalogBatchProcess';
+import getProductsList from '@functions/getProductsList'
+import getProductsAvailable from '@functions/getProductsAvailable'
+import catalogBatchProcess from '@functions/catalogBatchProcess'
+import { BookModelSchema } from '@models/book.model'
 
 const serverlessConfiguration: AWS = {
   service: 'productService',
@@ -19,7 +14,7 @@ const serverlessConfiguration: AWS = {
     'serverless-esbuild',
     'serverless-auto-swagger',
     '@martinsson/serverless-openapi-documentation',
-    'serverless-offline'
+    'serverless-offline',
   ],
   provider: {
     name: 'aws',
@@ -39,50 +34,45 @@ const serverlessConfiguration: AWS = {
       PG_USERNAME: '${env:PG_USERNAME, "postgres"}',
       PG_PASSWORD: '${env:PG_PASSWORD, ""}',
       PG_DATABASE: '${env:PG_DATABASE, "questbooks"}',
-      SNS_ARN: { Ref: 'SNSTopic' }
+      SNS_ARN: { Ref: 'SNSTopic' },
     },
     iam: {
       role: {
         statements: [
           {
-            Effect: "Allow",
-            Action: [ "sns:*" ],
-            Resource: { Ref: "SNSTopic" }
-          }
-        ]
-      }
-    }
+            Effect: 'Allow',
+            Action: ['sns:*'],
+            Resource: { Ref: 'SNSTopic' },
+          },
+        ],
+      },
+    },
   },
-  resources:{
+  resources: {
     Resources: {
       SNSTopic: {
-        Type: "AWS::SNS::Topic",
+        Type: 'AWS::SNS::Topic',
         Properties: {
-          TopicName: '${self:custom.snsTopic}'
-        }
+          TopicName: '${self:custom.snsTopic}',
+        },
       },
       SNSSubscription: {
-        Type: "AWS::SNS::Subscription",
+        Type: 'AWS::SNS::Subscription',
         Properties: {
           Endpoint: 'admin@dpankratov.ru',
           Protocol: 'email',
           TopicArn: {
-            Ref: 'SNSTopic'
-          }
-        }
+            Ref: 'SNSTopic',
+          },
+        },
       },
     },
-
   },
   // import the function via paths
   functions: {
     getProductsList,
-    createProduct,
-    deleteProduct,
     getProductsAvailable,
-    getProductsById,
-    updateProduct,
-    catalogBatchProcess
+    catalogBatchProcess,
   },
   package: { individually: true },
   custom: {
@@ -91,9 +81,9 @@ const serverlessConfiguration: AWS = {
     snsTopic: '${env:SNS_TOPIC, "createProductTopic"}',
     profile: {
       prod: 'free',
-      dev: 'free'
+      dev: 'free',
     },
-    "serverless-offline": {
+    'serverless-offline': {
       httpPort: 4000,
     },
     esbuild: {
@@ -110,28 +100,22 @@ const serverlessConfiguration: AWS = {
       version: '1',
       title: 'QuestBook REST API',
       description: 'QuestBook REST API',
-      models: [
-          ProductSchema,
-          CategorySchema,
-      ]
+      models: [BookModelSchema],
     },
     autoswagger: {
       apiType: 'http',
       generateSwaggerOnDeploy: true,
-      typefiles: [
-        './types/src/model/product.schema.d.ts'
-      ],
-//      swaggerFiles: ['./doc/openAPI.json'],
+      typefiles: ['./types/src/model/product.schema.d.ts'],
+      //      swaggerFiles: ['./doc/openAPI.json'],
       swaggerPath: 'swagger',
-//      apiKeyHeaders: ['Authorization', 'anyOtherName']
-//      useStage: true,
-//      basePath: '/',
-//      host: 'http://some-host',
+      //      apiKeyHeaders: ['Authorization', 'anyOtherName']
+      //      useStage: true,
+      //      basePath: '/',
+      //      host: 'http://some-host',
       schemes: ['https'],
-      excludeStages: ['prod']
-    }
+      excludeStages: ['prod'],
+    },
   },
+}
 
-};
-
-module.exports = serverlessConfiguration;
+module.exports = serverlessConfiguration

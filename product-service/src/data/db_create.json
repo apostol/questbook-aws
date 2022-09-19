@@ -1,0 +1,6 @@
+[
+  "create extension if not exists \"uuid-ossp\"",
+  "create table if not exists public.category ( id serial primary key, name text,description text )",
+  "create table if not exists public.books(id uuid primary key default uuid_generate_v4(),description text, title text, category_id integer, foreign key (\"category_id\") references \"category\" (\"id\"))",
+  "create table if not exists public.store ( id uuid,count integer, price float, foreign key (\"id\") references \"books\" (\"id\"))"
+]
