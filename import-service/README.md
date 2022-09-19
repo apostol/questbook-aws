@@ -2,18 +2,6 @@
 [AWS + TypeScript](https://docs.aws.amazon.com/lambda/latest/dg/lambda-typescript.html)
 [AWS + NodeJS](https://docs.aws.amazon.com/lambda/latest/dg/lambda-nodejs.html)
 
-# Serverless - AWS Node.js Typescript
-
-This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
-
-For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
-
-## Installation/deployment instructions
-
-Depending on your preferred package manager, follow the instructions below to deploy your project.
-
-> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
-
 ### Using NPM
 
 - Run `npm i` to install the project dependencies
@@ -55,32 +43,36 @@ curl --location --request POST 'https://myApiEndpoint/dev/hello' \
 }'
 ```
 
-## Template features
 
 ### Project structure
 
 The project code base is mainly located within the `src` folder. This folder is divided in:
 
 - `functions` - containing code base and configuration for your lambda functions
-- `libs` - containing shared code base between your lambdas
+- `utils` - containing shared code base between your lambdas
+- `services` - containing code base for AWS services
 
 ```
 .
 ├── src
 │   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
+│   │   ├── <lambda function name>
+│   │   │   ├── tests
+│   │   │   │   ├── handler.test.mock.json  # mock request to the lambda
+│   │   │   │   ├── handler.test.ts         # jest tests of the lambda
 │   │   │   ├── handler.ts      # `Hello` lambda source code
 │   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
-│   │   │
 │   │   └── index.ts            # Import/export of all lambda configurations
-│   │
-│   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
-│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
-│       └── lambda.ts           # Lambda middleware
-│
+│   └── utils                    # Lambda shared code
+│   │   └── apiGateway.ts       # API Gateway specific helpers
+│   │   └── handlerResolver.ts  # Sharable library for resolving lambda handlers
+│   │   └── lambda.ts           # Lambda middleware
+│   └── services
+│       ├── tests
+│       │   └── S3Service.test.ts # Jest tests for AWS S3  
+│       └── S3Service.ts        # Service for work with AWS S3
+│       └── SQSService.ts       # Service for work with AWS SQS
+│       └── configService.ts    # Service for work with config
 ├── package.json
 ├── serverless.ts               # Serverless service file
 ├── tsconfig.json               # Typescript compiler configuration
@@ -93,7 +85,4 @@ The project code base is mainly located within the `src` folder. This folder is 
 - [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
 - [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
 - [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
-
-### Advanced usage
-
-Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
+- ....
