@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Store": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "QuestBook REST API",
+    "description": "QuestBook REST API",
+    "version": "1"
+  },
+  "paths": {
+    "/product": {
+      "get": {
+        "operationId": "getProductsList",
+        "summary": "Book list",
+        "description": "Get book list",
+        "requestBody": {},
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Book list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
