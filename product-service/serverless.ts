@@ -3,7 +3,10 @@ import type { AWS } from '@serverless/typescript'
 import getProductsList from '@functions/getProductsList'
 import getProductsAvailable from '@functions/getProductsAvailable'
 import catalogBatchProcess from '@functions/catalogBatchProcess'
-import { BookModelSchema } from '@models/book.model'
+import { BookModelSchema } from 'src/models/book.model'
+import { CategoryModelSchema } from 'src/models/category.model'
+import { ModelSchema } from 'src/models/model'
+import { StoreModelSchema } from 'src/models/store.model'
 
 const serverlessConfiguration: AWS = {
   service: 'productService',
@@ -12,7 +15,7 @@ const serverlessConfiguration: AWS = {
   configValidationMode: 'off',
   plugins: [
     'serverless-esbuild',
-    'serverless-auto-swagger',
+    // 'serverless-auto-swagger',
     '@martinsson/serverless-openapi-documentation',
     'serverless-offline',
   ],
@@ -100,21 +103,28 @@ const serverlessConfiguration: AWS = {
       version: '1',
       title: 'QuestBook REST API',
       description: 'QuestBook REST API',
-      models: [BookModelSchema],
+      models: [BookModelSchema, CategoryModelSchema, ModelSchema, StoreModelSchema],
     },
-    autoswagger: {
-      apiType: 'http',
-      generateSwaggerOnDeploy: true,
-      typefiles: ['./types/src/model/product.schema.d.ts'],
-      //      swaggerFiles: ['./doc/openAPI.json'],
-      swaggerPath: 'swagger',
-      //      apiKeyHeaders: ['Authorization', 'anyOtherName']
-      //      useStage: true,
-      //      basePath: '/',
-      //      host: 'http://some-host',
-      schemes: ['https'],
-      excludeStages: ['prod'],
-    },
+    // Autoswagger config
+    // autoswagger: {
+    //   apiType: 'httpApi',
+    //   generateSwaggerOnDeploy: true,
+    //   typefiles: [
+    //     'src/models/book.model.d.ts',
+    //     'src/models/category.model.d.ts',
+    //     'src/models/model.d.ts',
+    //     'src/models/store.model.d.ts',
+    //   ],
+    //   // Generate it before (npm run pre-deploy)
+    //   // swaggerFiles: ['./openapi.json'],
+    //   swaggerPath: 'swagger',
+    //   //      apiKeyHeaders: ['Authorization', 'anyOtherName']
+    //   useStage: true,
+    //   //      basePath: '/',
+    //   // host: 'jbl0jz7dna.execute-api.eu-west-1.amazonaws.com',
+    //   schemes: ['https'],
+    //   excludeStages: ['prod'],
+    // },
   },
 }
 

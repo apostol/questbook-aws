@@ -1,4 +1,4 @@
-import { handlerPath } from '@utils/handler-resolver.util'
+import { handlerPath } from '@utils/handler-resolver'
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
   events: [

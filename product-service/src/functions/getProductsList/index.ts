@@ -1,4 +1,4 @@
-import { handlerPath } from '@utils/handler-resolver.util'
+import { handlerPath } from '@utils/handler-resolver'
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
@@ -8,11 +8,15 @@ export default {
         method: 'get',
         path: 'product',
         cors: true,
+        //openapi-documentation plugin
         documentation: {
           summary: 'Book list',
           description: 'Get book list',
           requestBody: {
             description: 'Request information about all books',
+          },
+          requestModels: {
+            'application/json': '{}',
           },
           methodResponses: [
             {
@@ -21,7 +25,7 @@ export default {
                 description: 'Book list',
               },
               responseModels: {
-                'application/json': 'BookModel',
+                'application/json': 'Book',
               },
             },
             // {
@@ -35,19 +39,20 @@ export default {
             // },
           ],
         },
-        responseData: {
-          // response with description and response body
-          200: {
-            description: 'OK',
-            bodyType: 'BookModel',
-          },
-          // response with just a description
-          400: {
-            description: 'Failed',
-          },
-          // shorthand for just a description
-          502: 'server error',
-        },
+        //auto-swagger plugin
+        // responseData: {
+        //   // response with description and response body
+        //   200: {
+        //     description: 'OK',
+        //     bodyType: 'APIGatewayProxyResult',
+        //   },
+        //   // response with just a description
+        //   400: {
+        //     description: 'Failed',
+        //   },
+        //   // shorthand for just a description
+        //   500: 'server error',
+        // },
         // cors: {
         //   origin: '*',
         //   headers: [
